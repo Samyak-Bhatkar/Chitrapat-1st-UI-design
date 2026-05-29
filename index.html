@@ -191,11 +191,9 @@
     border-radius: 8px;
     box-shadow: 0 20px 50px rgba(0,0,0,.9);
   }
-
   .card img {
     width: 100%; height: 100%;
-    object-fit: cover;
-    display: block;
+    object-fit: cover; display: block;
     transition: opacity .3s;
   }
   .card-overlay {
@@ -206,9 +204,7 @@
     justify-content: flex-end; padding: 10px;
   }
   .card:hover .card-overlay { opacity: 1; }
-  .card-actions {
-    display: flex; gap: 6px; margin-bottom: 6px;
-  }
+  .card-actions { display: flex; gap: 6px; margin-bottom: 6px; }
   .c-btn {
     width: 28px; height: 28px; border-radius: 50%;
     border: 2px solid rgba(255,255,255,.7);
@@ -248,8 +244,16 @@
     from { opacity: 0; transform: scale(.9) translateY(20px); }
     to   { opacity: 1; transform: scale(1) translateY(0); }
   }
-  .modal-video { position: relative; padding-top: 56.25%; background: #000; }
-  .modal-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+  .modal-video {
+    position: relative;
+    padding-top: 56.25%;
+    background: #000;
+  }
+  .modal-video iframe {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    border: none;
+  }
   .modal-close {
     position: absolute; top: 14px; right: 14px;
     width: 36px; height: 36px; border-radius: 50%;
@@ -260,18 +264,115 @@
   }
   .modal-close:hover { background: rgba(255,255,255,.2); }
   .modal-body { padding: 24px 30px 30px; }
-  .modal-title { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 2px; margin-bottom: 8px; }
+  .modal-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem; letter-spacing: 2px; margin-bottom: 8px;
+  }
   .modal-desc { font-size: .95rem; color: rgba(255,255,255,.7); line-height: 1.7; }
+
+  /* ─────────────────────────────────────────────────
+     MOBILE FULLSCREEN — custom button (touch devices)
+  ───────────────────────────────────────────────── */
+  #mobFsBtn {
+    /* Hidden by default; shown only on touch/mobile in JS */
+    display: none;
+    position: absolute;
+    bottom: 11px;
+    right: 11px;
+    z-index: 30;
+    width: 40px; height: 40px;
+    border-radius: 7px;
+    background: rgba(0,0,0,.78);
+    border: 1.5px solid rgba(255,255,255,.55);
+    color: #fff;
+    font-size: 1.05rem;
+    align-items: center; justify-content: center;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    -webkit-tap-highlight-color: transparent;
+    transition: background .2s, border-color .2s, transform .15s;
+    /* SVG expand icon rendered inline via background */
+  }
+  #mobFsBtn:active {
+    background: rgba(229,9,20,.75);
+    border-color: var(--red);
+    transform: scale(.93);
+  }
+  /* Show on any touch/coarse-pointer device */
+  @media (pointer: coarse) {
+    #mobFsBtn { display: flex; }
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     iOS LANDSCAPE TRICK
+     When screen.orientation.lock() is unavailable (iOS Safari),
+     we fake landscape by:
+       1. Making the modal-video go position:fixed, full viewport
+       2. Rotating it 90deg inside the fixed container
+     A dedicated exit button is shown so the user can return.
+  ───────────────────────────────────────────────────────────── */
+
+  /* Applied to <body> when iOS fake-landscape is active */
+  body.ios-fs-active {
+    overflow: hidden;
+  }
+
+  /* The fixed overlay behind the rotated video */
+  #iosFsOverlay {
+    display: none;
+    position: fixed; inset: 0;
+    z-index: 9000;
+    background: #000;
+    align-items: center; justify-content: center;
+  }
+  body.ios-fs-active #iosFsOverlay { display: flex; }
+
+  /* Rotated video container inside the overlay */
+  #iosFsVideoWrap {
+    /* Portrait: height = vw, width = vh  (90deg rotate swaps axes) */
+    width: 100vh;
+    height: 100vw;
+    position: relative;
+    transform: rotate(90deg);
+    transform-origin: center center;
+    background: #000;
+  }
+  #iosFsVideoWrap iframe {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    border: none;
+  }
+
+  /* Exit button for iOS fake-landscape (top-left, counter-rotated) */
+  #iosFsExit {
+    position: fixed;
+    /* top-left of the VISUAL landscape, which is top of portrait screen */
+    top: 14px; left: 14px;
+    z-index: 9001;
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: rgba(0,0,0,.8);
+    border: 1.5px solid rgba(255,255,255,.55);
+    color: #fff; font-size: 1.1rem;
+    cursor: pointer;
+    display: none;
+    align-items: center; justify-content: center;
+    transform: rotate(90deg); /* counter-rotate so ✕ is readable */
+    -webkit-tap-highlight-color: transparent;
+  }
+  body.ios-fs-active #iosFsExit { display: flex; }
 
   /* ── FOOTER ── */
   footer {
     padding: 40px 48px;
     border-top: 1px solid #222;
-    color: var(--muted);
-    font-size: .85rem;
+    color: var(--muted); font-size: .85rem;
     display: flex; justify-content: space-between; align-items: center;
   }
-  .footer-logo { font-family: 'Bebas Neue'; font-size: 1.4rem; color: var(--red); letter-spacing: 3px; }
+  .footer-logo {
+    font-family: 'Bebas Neue'; font-size: 1.4rem;
+    color: var(--red); letter-spacing: 3px;
+  }
 
   /* ── SCROLLBAR ── */
   ::-webkit-scrollbar { width: 4px; }
@@ -335,21 +436,43 @@
       <button class="modal-close" onclick="closeModal()">✕</button>
 
       <!-- Poster / play screen shown before video loads -->
-      <div id="modalPosterWrap" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#000;cursor:pointer;" onclick="startPlay()">
-        <img id="modalPosterImg" src="" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.6;">
-        <div id="modalPlayCircle" style="position:relative;z-index:2;width:80px;height:80px;border-radius:50%;background:rgba(229,9,20,.85);display:flex;align-items:center;justify-content:center;font-size:2rem;color:#fff;box-shadow:0 0 40px rgba(229,9,20,.5);transition:transform .2s;">▶</div>
+      <div id="modalPosterWrap"
+           style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#000;cursor:pointer;"
+           onclick="startPlay()">
+        <img id="modalPosterImg" src="" alt=""
+             style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.6;">
+        <div id="modalPlayCircle"
+             style="position:relative;z-index:2;width:80px;height:80px;border-radius:50%;background:rgba(229,9,20,.85);display:flex;align-items:center;justify-content:center;font-size:2rem;color:#fff;box-shadow:0 0 40px rgba(229,9,20,.5);transition:transform .2s;">▶</div>
         <div style="position:relative;z-index:2;margin-top:16px;font-size:.9rem;color:rgba(255,255,255,.8);font-weight:500;">Click to Play</div>
       </div>
 
       <!-- Actual iframe, inserted only when user clicks play -->
       <div id="modalIframeWrap" style="position:absolute;inset:0;display:none;"></div>
 
+      <!--
+        ★ CUSTOM MOBILE FULLSCREEN BUTTON
+        Sits bottom-right over the video; only visible on touch screens.
+        On Android  → native Fullscreen API + screen.orientation.lock('landscape')
+        On iOS      → CSS rotate trick (iosFsOverlay)
+      -->
+      <button id="mobFsBtn" title="Fullscreen" aria-label="Enter fullscreen">
+        <!-- Expand / fullscreen SVG icon -->
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="1 6 1 1 6 1"/>
+          <polyline points="12 1 17 1 17 6"/>
+          <polyline points="17 12 17 17 12 17"/>
+          <polyline points="6 17 1 17 1 12"/>
+        </svg>
+      </button>
+
       <!-- Blocked video fallback -->
-      <div id="modalBlocked" style="position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;background:#0a0a0a;gap:18px;text-align:center;padding:30px;">
+      <div id="modalBlocked"
+           style="position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;background:#0a0a0a;gap:18px;text-align:center;padding:30px;">
         <div style="font-size:3rem;">🚫</div>
         <div style="font-size:1.1rem;font-weight:700;color:#fff;">Embedding Disabled by Uploader</div>
         <div style="font-size:.9rem;color:#aaa;max-width:360px;">The video owner has turned off embedding for this video. You can still watch it directly on YouTube.</div>
-        <a id="modalYTLink" href="#" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;background:#ff0000;color:#fff;text-decoration:none;padding:13px 28px;border-radius:8px;font-weight:700;font-size:1rem;transition:background .2s;">
+        <a id="modalYTLink" href="#" target="_blank" rel="noopener"
+           style="display:inline-flex;align-items:center;gap:10px;background:#ff0000;color:#fff;text-decoration:none;padding:13px 28px;border-radius:8px;font-weight:700;font-size:1rem;transition:background .2s;">
           ▶ Watch on YouTube
         </a>
       </div>
@@ -371,7 +494,178 @@
   </div>
 </div>
 
+<!--
+  ══════════════════════════════════════════════════════════
+  iOS FAKE-LANDSCAPE OVERLAY
+  Sits above everything. The inner wrap rotates 90deg so the
+  iframe fills the screen in "landscape" without actually
+  rotating the device orientation.
+  ══════════════════════════════════════════════════════════
+-->
+<div id="iosFsOverlay">
+  <div id="iosFsVideoWrap">
+    <!-- iframe cloned here by JS when iOS fake-FS activates -->
+  </div>
+</div>
+<!-- Exit button for iOS fake-landscape (outside overlay so no rotation) -->
+<button id="iosFsExit" onclick="exitIosFs()" aria-label="Exit fullscreen">✕</button>
+
+
 <script>
+/* ═══════════════════════════════════════════════════════════════
+   DEVICE / CAPABILITY DETECTION
+═══════════════════════════════════════════════════════════════ */
+const IS_IOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+const IS_TOUCH = navigator.maxTouchPoints > 0 || 'ontouchstart' in window;
+
+// Does the browser support orientation lock?
+const CAN_LOCK_ORIENTATION =
+  !IS_IOS &&
+  !!screen.orientation &&
+  typeof screen.orientation.lock === 'function';
+
+/* ═══════════════════════════════════════════════════════════════
+   ORIENTATION LOCK HELPERS
+═══════════════════════════════════════════════════════════════ */
+async function lockLandscape() {
+  if (!CAN_LOCK_ORIENTATION) return;
+  try {
+    await screen.orientation.lock('landscape');
+  } catch (e) {
+    // Permission denied or not in fullscreen yet — silently ignore
+    console.warn('[Chitrapat] orientation lock:', e.message);
+  }
+}
+
+function unlockOrientation() {
+  if (!CAN_LOCK_ORIENTATION) return;
+  try { screen.orientation.unlock(); } catch (_) {}
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   NATIVE FULLSCREEN HELPERS
+═══════════════════════════════════════════════════════════════ */
+function requestFs(el) {
+  if      (el.requestFullscreen)       return el.requestFullscreen();
+  else if (el.webkitRequestFullscreen) return el.webkitRequestFullscreen();
+  else if (el.mozRequestFullScreen)    return el.mozRequestFullScreen();
+  else if (el.msRequestFullscreen)     return el.msRequestFullscreen();
+  return Promise.resolve();
+}
+
+function exitFs() {
+  if      (document.exitFullscreen)       return document.exitFullscreen();
+  else if (document.webkitExitFullscreen) return document.webkitExitFullscreen();
+  else if (document.mozCancelFullScreen)  return document.mozCancelFullScreen();
+  else if (document.msExitFullscreen)     return document.msExitFullscreen();
+  return Promise.resolve();
+}
+
+function fullscreenElement() {
+  return document.fullscreenElement
+      || document.webkitFullscreenElement
+      || document.mozFullScreenElement
+      || null;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GLOBAL fullscreenchange LISTENER
+   Handles BOTH our custom button AND YouTube's native FS button
+   (which fires this event on Android Chrome when the iframe
+   delegates fullscreen to the parent document).
+═══════════════════════════════════════════════════════════════ */
+['fullscreenchange', 'webkitfullscreenchange', 'mozfullscreenchange'].forEach(evt => {
+  document.addEventListener(evt, () => {
+    if (fullscreenElement()) {
+      // Entered fullscreen → lock landscape (Android / desktop)
+      lockLandscape();
+    } else {
+      // Exited fullscreen → release orientation lock
+      unlockOrientation();
+    }
+  });
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   iOS FAKE-LANDSCAPE FULLSCREEN
+   Uses a fixed overlay + CSS rotate(90deg) since iOS Safari
+   does not support screen.orientation.lock() at all.
+═══════════════════════════════════════════════════════════════ */
+let iosFsActive = false;
+let iosFsIframe = null; // reference so we can remove it on exit
+
+function enterIosFs(videoId) {
+  if (iosFsActive) return;
+  iosFsActive = true;
+
+  const wrap = document.getElementById('iosFsVideoWrap');
+  wrap.innerHTML = ''; // clear any previous iframe
+
+  // Build a fresh iframe identical to the player
+  const iframe = document.createElement('iframe');
+  iframe.id = 'iosFsPlayer';
+  iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding=1&controls=1&autoplay=1&playsinline=0`;
+  iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+  iframe.setAttribute('allowfullscreen', '');
+  iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+  iosFsIframe = iframe;
+  wrap.appendChild(iframe);
+
+  document.body.classList.add('ios-fs-active');
+}
+
+function exitIosFs() {
+  if (!iosFsActive) return;
+  iosFsActive = false;
+
+  // Kill iframe src to stop audio/video
+  if (iosFsIframe) { iosFsIframe.src = ''; iosFsIframe = null; }
+  document.getElementById('iosFsVideoWrap').innerHTML = '';
+  document.body.classList.remove('ios-fs-active');
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CUSTOM MOBILE FULLSCREEN BUTTON (#mobFsBtn) HANDLER
+   Strategy:
+   • iOS  → iOS fake-landscape overlay (CSS rotate trick)
+   • Others (Android Chrome, etc.)
+       → requestFullscreen() on the iframe container
+       → then screen.orientation.lock('landscape')
+═══════════════════════════════════════════════════════════════ */
+document.getElementById('mobFsBtn').addEventListener('click', async () => {
+  const iframeWrap = document.getElementById('modalIframeWrap');
+  const iframe = iframeWrap.querySelector('iframe');
+  if (!iframe) return; // video not started yet
+
+  if (IS_IOS) {
+    // iOS path — use fake-landscape overlay
+    enterIosFs(currentId);
+    return;
+  }
+
+  // Android / other: native Fullscreen API on the iframe
+  try {
+    await requestFs(iframe);
+    // Lock after entering FS (lockLandscape is also called via
+    // the fullscreenchange listener, but calling it here too
+    // ensures it runs in the same user-gesture call stack)
+    await lockLandscape();
+  } catch (e) {
+    // Fallback: request FS on the modal video box wrapper
+    try {
+      await requestFs(document.getElementById('modalVideoBox'));
+      await lockLandscape();
+    } catch (e2) {
+      console.warn('[Chitrapat] fullscreen failed, opening YouTube:', e2.message);
+      window.open(`https://www.youtube.com/watch?v=${currentId}`, '_blank');
+    }
+  }
+});
+
+
+/* ═══════════════════════════════════════════════════════════════
+   DATA & CARD BUILDING
+═══════════════════════════════════════════════════════════════ */
 const ALL_IDS = [
   'fmkS85mNZWA','vGAlyVISGdY','C5Fai9f41zg','wgaiwDwkFv8','mYcjf8JyTUY',
   '37lE2fcE1tc','n8oJicFVuGA','4-6nDNMQIaU','FkxPhdo5hl0','ObRnSM7oSt0',
@@ -386,22 +680,20 @@ const ALL_IDS = [
 ];
 
 const ROWS = [
-  { title: '🔥 Trending Now',   ids: ALL_IDS.slice(0, 8) },
-  { title: '⭐ Top Rated',      ids: ALL_IDS.slice(8, 16) },
-  { title: '🎬 Action Movies',  ids: ALL_IDS.slice(16, 24) },
-  { title: '😂 Comedy Movies',  ids: ALL_IDS.slice(24, 32) },
-  { title: '🎭 Drama Series',   ids: ALL_IDS.slice(32, 40) },
-  { title: '🌟 New Arrivals',   ids: ALL_IDS.slice(40, 50) },
+  { title: '🔥 Trending Now',  ids: ALL_IDS.slice(0, 8) },
+  { title: '⭐ Top Rated',     ids: ALL_IDS.slice(8, 16) },
+  { title: '🎬 Action Movies', ids: ALL_IDS.slice(16, 24) },
+  { title: '😂 Comedy Movies', ids: ALL_IDS.slice(24, 32) },
+  { title: '🎭 Drama Series',  ids: ALL_IDS.slice(32, 40) },
+  { title: '🌟 New Arrivals',  ids: ALL_IDS.slice(40, 50) },
 ];
 
-// Cache for video titles fetched via oEmbed
 const titleCache = {};
 
 function thumbUrl(id) {
   return `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
 }
 
-// Fetch real title from YouTube oEmbed (no API key needed)
 async function fetchTitle(id) {
   if (titleCache[id]) return titleCache[id];
   try {
@@ -410,9 +702,7 @@ async function fetchTitle(id) {
     const d = await r.json();
     titleCache[id] = d.title;
     return d.title;
-  } catch {
-    return null;
-  }
+  } catch { return null; }
 }
 
 function buildRows() {
@@ -425,7 +715,7 @@ function buildRows() {
       <div class="slider-wrap">
         <button class="arrow left" onclick="scrollRow(this,-1)">‹</button>
         <div class="slider">
-          ${row.ids.map((id,i) => `
+          ${row.ids.map(id => `
             <div class="card" id="card-${id}" onclick="openModal('${id}')">
               <img src="${thumbUrl(id)}" alt="thumb" loading="lazy" onerror="this.style.opacity='.25'">
               <div class="card-overlay">
@@ -443,7 +733,6 @@ function buildRows() {
       </div>`;
     main.appendChild(section);
 
-    // Lazy-load titles for cards in this row
     row.ids.forEach(id => {
       fetchTitle(id).then(t => {
         const el = document.getElementById('ct-' + id);
@@ -458,7 +747,9 @@ function scrollRow(btn, dir) {
   slider.scrollBy({ left: dir * 800, behavior: 'smooth' });
 }
 
-/* ── MODAL ── */
+/* ═══════════════════════════════════════════════════════════════
+   MODAL
+═══════════════════════════════════════════════════════════════ */
 let currentId = '';
 
 async function openModal(id) {
@@ -470,53 +761,57 @@ async function openModal(id) {
   document.getElementById('modalIframeWrap').innerHTML = '';
   document.getElementById('modalBlocked').style.display = 'none';
 
-  // Poster
-  document.getElementById('modalPosterImg').src = `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
+  document.getElementById('modalPosterImg').src =
+    `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
 
-  // YT links
   const ytUrl = `https://www.youtube.com/watch?v=${id}`;
   document.getElementById('modalExtLink').href = ytUrl;
-  document.getElementById('modalYTLink').href = ytUrl;
+  document.getElementById('modalYTLink').href  = ytUrl;
 
-  // Title
   document.getElementById('modalTitle').textContent = 'Loading…';
   document.getElementById('modalBg').classList.add('open');
   document.body.style.overflow = 'hidden';
 
   const title = await fetchTitle(id);
   document.getElementById('modalTitle').textContent = title || 'Chitrapat Movie';
-  document.getElementById('modalDesc').textContent = title
+  document.getElementById('modalDesc').textContent  = title
     ? `Now streaming on Chitrapat: ${title}`
     : 'Watch this amazing title on Chitrapat.';
 }
 
 function startPlay() {
-  const id = currentId;
+  const id   = currentId;
   const wrap = document.getElementById('modalIframeWrap');
-  const poster = document.getElementById('modalPosterWrap');
 
-  poster.style.display = 'none';
+  document.getElementById('modalPosterWrap').style.display = 'none';
   wrap.style.display = 'block';
   wrap.innerHTML = '';
 
   const iframe = document.createElement('iframe');
   iframe.id = 'ytplayer';
   iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:none;';
-  // ✅ Use youtube-nocookie.com (privacy-enhanced, fewer restrictions)
-  // ✅ No autoplay — user already clicked, browser allows it
-  iframe.src = `https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1&controls=1&autoplay=1`;
-  iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+  iframe.src =
+    `https://www.youtube-nocookie.com/embed/${id}` +
+    `?rel=0&modestbranding=1&controls=1&autoplay=1&playsinline=1`;
+  iframe.allow =
+    'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+  iframe.setAttribute('allowfullscreen', '');
   iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
-  iframe.allowFullscreen = true;
-
   wrap.appendChild(iframe);
 }
 
 function closeModal() {
-  document.getElementById('modalIframeWrap').innerHTML = '';
+  // Stop any playing iOS overlay too
+  exitIosFs();
+
+  // Exit native fullscreen if open
+  if (fullscreenElement()) { exitFs().catch(() => {}); }
+  unlockOrientation();
+
+  document.getElementById('modalIframeWrap').innerHTML     = '';
   document.getElementById('modalIframeWrap').style.display = 'none';
   document.getElementById('modalPosterWrap').style.display = 'flex';
-  document.getElementById('modalBlocked').style.display = 'none';
+  document.getElementById('modalBlocked').style.display   = 'none';
   document.getElementById('modalBg').classList.remove('open');
   document.body.style.overflow = '';
 }
@@ -525,6 +820,9 @@ function closeModalBg(e) {
   if (e.target === document.getElementById('modalBg')) closeModal();
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════════════════ */
 buildRows();
 </script>
 </body>
