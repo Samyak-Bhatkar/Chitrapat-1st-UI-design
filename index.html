@@ -319,13 +319,7 @@ nav {
   opacity: 1;
   pointer-events: auto;
 }
-/* Hide on non-touch (desktop has native fullscreen controls) */
-@media (pointer: fine) {
-  #modalVideoBox.is-playing #mobFsBtn {
-    opacity: 0;
-    pointer-events: none;
-  }
-}
+
 
 /* Show Fill pill ONLY when actively in fullscreen */
 #modalVideoBox:fullscreen #fillPill,
@@ -839,17 +833,24 @@ function fsElement() {
 });
 
 /* ══════════════════════════════════════════════════════
-   ENTER FULLSCREEN  (tapping #mobFsBtn)
+   ENTER / EXIT FULLSCREEN TOGGLE
 ══════════════════════════════════════════════════════ */
 async function enterFullscreen() {
   if (IS_IOS) {
     enterIosFs(currentId);
     return;
   }
+  
+  // NEW LOGIC: If already in fullscreen, exit it.
+  if (fsElement()) {
+    exitFs();
+    return;
+  }
+
   try {
     await requestFs(document.getElementById('modalVideoBox'));
     await lockLandscape();
-    // Auto-fill is also triggered via fullscreenchange listener above
+    // Auto-fill is also triggered via fullscreenchange listener
   } catch(e) {
     console.warn('[FS] requestFs failed:', e.message);
     window.open(`https://www.youtube.com/watch?v=${currentId}`, '_blank');
