@@ -957,61 +957,61 @@ async function openModal(id) {
 
   /* ── Reset all state ── */
   box.classList.remove('is-playing');
-  wrap.classList.remove('is-playing','fill-mode');
-  wrap.style.display = 'none';          /* CSS .is-playing will handle display */
+  wrap.classList.remove('is-playing', 'fill-mode');
+  
+  // FIX: Clear the inline style so the CSS stylesheet can take control
+  wrap.style.display = ''; 
   wrap.innerHTML = '';
+  
+  /* Reset the fill pill UI */
+  applyFill(false, true); 
 
+  /* Show poster, hide blocked UI */
   document.getElementById('modalPosterWrap').style.display = 'flex';
-  document.getElementById('modalBlocked').style.display   = 'none';
+  document.getElementById('modalBlocked').style.display = 'none';
 
-  /* Reset pill to default (will be re-hidden by CSS until fullscreen) */
-  document.getElementById('fillPill').classList.remove('is-fill');
-  document.getElementById('fillLabel').textContent = 'Fill';
-
-  /* Poster & links */
-  document.getElementById('modalPosterImg').src =
-    `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
-  const ytUrl = `https://www.youtube.com/watch?v=${id}`;
-  document.getElementById('modalExtLink').href = ytUrl;
-  document.getElementById('modalYTLink').href  = ytUrl;
-
+  /* Load high-res poster */
+  document.getElementById('modalPosterImg').src = `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
+  
+  /* Set external links and placeholder title */
   document.getElementById('modalTitle').textContent = 'Loading…';
+  document.getElementById('modalYTLink').href = `https://www.youtube.com/watch?v=${id}`;
+  document.getElementById('modalExtLink').href = `https://www.youtube.com/watch?v=${id}`;
+  
+  /* Open modal wrapper */
   document.getElementById('modalBg').classList.add('open');
-  document.body.style.overflow = 'hidden';
 
+  /* Fetch title asynchronously */
   const title = await fetchTitle(id);
-  document.getElementById('modalTitle').textContent = title || 'Chitrapat Movie';
-  document.getElementById('modalDesc').textContent  = title
-    ? `Now streaming on Chitrapat: ${title}`
-    : 'Watch this amazing title on Chitrapat.';
+  if (title) {
+    document.getElementById('modalTitle').textContent = title;
+  } else {
+    document.getElementById('modalTitle').textContent = 'Video Details Unavailable';
+  }
 }
 
+/* ══════════════════════════════════════════════════════
+   START PLAYBACK (User clicks poster)
+══════════════════════════════════════════════════════ */
 function startPlay() {
+  document.getElementById('modalPosterWrap').style.display = 'none';
+  
   const box  = document.getElementById('modalVideoBox');
   const wrap = document.getElementById('modalIframeWrap');
-
-  /* Hide poster */
-  document.getElementById('modalPosterWrap').style.display = 'none';
-
-  /* Mark as playing — this triggers CSS to show #mobFsBtn */
+  
+  /* Toggle UI state to reveal fullscreen & fill buttons via CSS */
   box.classList.add('is-playing');
   wrap.classList.add('is-playing');
-
-  /* Build iframe.
-     CRITICAL: fs=0 disables YouTube's native fullscreen button.
-     This forces users through our custom fullscreen button, keeping
-     our wrapper CSS in control at all times. */
-  const iframe = document.createElement('iframe');
-  iframe.style.cssText = 'width:100%;height:100%;border:none;';
-  iframe.src =
-    `https://www.youtube-nocookie.com/embed/${currentId}` +
-    `?autoplay=1&playsinline=1&fs=0&rel=0&modestbranding=1`;
-  iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-  iframe.setAttribute('referrerpolicy','strict-origin-when-cross-origin');
-  wrap.innerHTML = '';
-  wrap.appendChild(iframe);
+  
+  /* CRITICAL PARAMS:
+     fs=0 : Removes native YouTube Fullscreen button so they must use yours
+     rel=0 : Limits suggested videos at the end
+  */
+  wrap.innerHTML = `<iframe 
+    src="https://www.youtube-nocookie.com/embed/${currentId}?autoplay=1&playsinline=1&fs=0&rel=0&modestbranding=1" 
+    allow="autoplay; encrypted-media" 
+    allowfullscreen></iframe>`;
 }
-
 function closeModal() {
   exitIosFs();
   if (fsElement()) exitFs().catch(()=>{});
