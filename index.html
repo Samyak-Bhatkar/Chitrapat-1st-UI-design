@@ -407,6 +407,46 @@ nav {
 }
 
 /* ════════════════════════════════════════════════
+   AUTO-HIDE UI & WAKE BUTTON (Dot in Glass)
+════════════════════════════════════════════════ */
+#uiWakeUpBtn {
+  position: absolute;
+  right: 16px; bottom: 16px;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; cursor: pointer; z-index: 2000;
+  opacity: 0; pointer-events: none;
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.03);
+  transition: opacity 0.4s ease, background 0.2s ease, border 0.2s ease;
+}
+#modalVideoBox.is-playing.ui-hidden #uiWakeUpBtn {
+  opacity: 0.25; pointer-events: auto;
+}
+@media (hover: hover) {
+  #uiWakeUpBtn:hover {
+    opacity: 0.9 !important;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+  }
+}
+#uiWakeUpBtn:active {
+  opacity: 0.9 !important;
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(0.95);
+}
+/* Force hide the main controls when ui-hidden is active */
+#modalVideoBox.ui-hidden #fillPill,
+#modalVideoBox.ui-hidden #mobFsBtn {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.4s ease;
+}
+
+/* ════════════════════════════════════════════════
    CLOSE BUTTON
 ════════════════════════════════════════════════ */
 .modal-close {
@@ -699,19 +739,22 @@ footer {
         Hidden until playback via CSS (#modalVideoBox.is-playing #mobFsBtn).
         So it NEVER shows on poster screen.
       -->
-      <button id="mobFsBtn" onclick="enterFullscreen()" aria-label="Enter fullscreen">
+<button id="mobFsBtn" onclick="enterFullscreen()" aria-label="Enter fullscreen">
         <svg width="17" height="17" viewBox="0 0 18 18" fill="none"
              stroke="currentColor" stroke-width="2"
              stroke-linecap="round" stroke-linejoin="round">
           <polyline points="1 6 1 1 6 1"/>
           <polyline points="12 1 17 1 17 6"/>
-          <polyline points="17 12 17 17 12 17"/>
+          <polyline points="17 12 17 17 17 17"/>
           <polyline points="6 17 1 17 1 12"/>
         </svg>
       </button>
 
-      <!-- Blocked fallback -->
+      <button id="uiWakeUpBtn" onclick="wakeUpUI()">•</button>
+
       <div id="modalBlocked">
+
+             <!-- Blocked fallback -->  
         <div style="font-size:3rem">🚫</div>
         <div style="font-size:1.1rem;font-weight:700;color:#fff">Embedding Disabled</div>
         <div style="font-size:.9rem;color:#aaa;max-width:360px">This video can't be embedded. Watch it on YouTube directly.</div>
@@ -1105,6 +1148,40 @@ function buildRows() {
 }
 
 buildRows();
+   /* ══════════════════════════════════════════════════════
+   UNIFIED UI AUTO-HIDE & WAKE PIPELINE
+══════════════════════════════════════════════════════ */
+let idleTimer = null;
+
+function wakeUpUI() {
+  const modalBox = document.getElementById('modalVideoBox');
+  
+  // 1. Reveal the primary overlay controls, hide the tiny wake button
+  modalBox.classList.remove('ui-hidden');
+  
+  // 2. Reset existing countdown thresholds
+  clearTimeout(idleTimer);
+  
+  // 3. Initiate countdown to hide controls again (4 seconds)
+  idleTimer = setTimeout(() => {
+    if (modalBox.classList.contains('is-playing')) {
+      modalBox.classList.add('ui-hidden');
+    }
+  }, 4000);
+}
+
+// Track mouse movements over the modal background (for Laptops)
+document.getElementById('modalBg').addEventListener('mousemove', () => {
+  if (document.getElementById('modalVideoBox').classList.contains('is-playing')) {
+    wakeUpUI();
+  }
+});
+
+// Initial Trigger: Wake up UI when playback first begins (Poster click)
+const posterWrap = document.getElementById('modalPosterWrap');
+if(posterWrap) {
+  posterWrap.addEventListener('click', wakeUpUI);
+}
 </script>
 </body>
 </html>
