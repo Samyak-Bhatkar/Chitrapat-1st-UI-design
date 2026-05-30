@@ -5,536 +5,625 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Chitrapat</title>
-<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi&family=Bebas+Neue&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --red: #e50914;
-    --gold: #f5c518;
-    --dark: #0a0a0a;
-    --card-bg: #141414;
-    --surface: #1a1a1a;
-    --text: #e5e5e5;
-    --muted: #777;
-    --nav-h: 64px;
-  }
+/* ════════════════════════════════════════════════
+   TOKENS
+════════════════════════════════════════════════ */
+:root {
+  --red:    #e50914;
+  --gold:   #f5c518;
+  --dark:   #0a0a0a;
+  --card-bg:#141414;
+  --text:   #e5e5e5;
+  --muted:  #777;
+  --nav-h:  64px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+body{
+  background:var(--dark);
+  color:var(--text);
+  font-family:'Outfit',sans-serif;
+  overflow-x:hidden;
+}
 
-  body {
-    background: var(--dark);
-    color: var(--text);
-    font-family: 'Outfit', sans-serif;
-    overflow-x: hidden;
-  }
+/* ════════════════════════════════════════════════
+   NAV
+════════════════════════════════════════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:var(--nav-h);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 48px;
+  background:linear-gradient(to bottom,rgba(0,0,0,.9),transparent);
+  backdrop-filter:blur(4px);
+}
+.logo{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:2.4rem;letter-spacing:4px;
+  color:var(--red);
+  text-shadow:0 0 20px rgba(229,9,20,.4);
+  user-select:none;
+}
+.logo span{color:var(--gold)}
+.nav-right{display:flex;align-items:center;gap:20px}
+.nav-btn{
+  background:var(--red);color:#fff;
+  border:none;padding:8px 20px;border-radius:4px;
+  font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:600;
+  cursor:pointer;transition:background .2s;
+}
+.nav-btn:hover{background:#c40812}
+.avatar{
+  width:36px;height:36px;border-radius:6px;
+  background:linear-gradient(135deg,#e50914,#f5c518);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:.85rem;cursor:pointer;
+}
 
-  /* ── NAV ── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    height: var(--nav-h);
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 48px;
-    background: linear-gradient(to bottom, rgba(0,0,0,.9) 0%, transparent 100%);
-    backdrop-filter: blur(4px);
-  }
-  .logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.4rem;
-    letter-spacing: 4px;
-    color: var(--red);
-    text-shadow: 0 0 20px rgba(229,9,20,.4);
-    user-select: none;
-  }
-  .logo span { color: var(--gold); }
-  .nav-right { display: flex; align-items: center; gap: 20px; }
-  .nav-btn {
-    background: var(--red); color: #fff;
-    border: none; padding: 8px 20px; border-radius: 4px;
-    font-family: 'Outfit', sans-serif; font-size: .9rem; font-weight: 600;
-    cursor: pointer; transition: background .2s;
-  }
-  .nav-btn:hover { background: #c40812; }
-  .avatar {
-    width: 36px; height: 36px; border-radius: 6px;
-    background: linear-gradient(135deg, #e50914, #f5c518);
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 700; font-size: .85rem; cursor: pointer;
-  }
+/* ════════════════════════════════════════════════
+   HERO
+════════════════════════════════════════════════ */
+.hero{
+  position:relative;width:100%;height:100vh;
+  display:flex;align-items:center;
+  overflow:hidden;background:#000;
+}
+.hero-video-wrap{
+  position:absolute;inset:0;pointer-events:none;
+}
+.hero-video-wrap iframe{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%) scale(1.15);
+  width:100vw;height:56.25vw;
+  min-height:100vh;min-width:177.78vh;
+  border:none;opacity:.55;filter:brightness(.7);
+}
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to right,rgba(0,0,0,.85) 30%,transparent 70%),
+             linear-gradient(to top,rgba(0,0,0,.9) 0%,transparent 40%);
+}
+.hero-content{
+  position:relative;z-index:2;
+  padding:0 48px;max-width:600px;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(229,9,20,.2);border:1px solid rgba(229,9,20,.4);
+  color:#ff6b6b;padding:4px 14px;border-radius:20px;
+  font-size:.8rem;font-weight:600;letter-spacing:1px;
+  text-transform:uppercase;margin-bottom:18px;
+}
+.hero-badge::before{content:'▶';font-size:.7rem}
+.hero-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(3rem,7vw,5.5rem);
+  line-height:1;letter-spacing:3px;color:#fff;
+  text-shadow:0 4px 30px rgba(0,0,0,.8);margin-bottom:16px;
+}
+.hero-sub{
+  font-size:1.05rem;color:rgba(255,255,255,.75);
+  line-height:1.6;margin-bottom:28px;font-weight:300;
+}
+.hero-actions{display:flex;gap:14px}
+.btn-play{
+  display:flex;align-items:center;gap:10px;
+  background:#fff;color:#000;border:none;
+  padding:13px 30px;border-radius:6px;
+  font-family:'Outfit',sans-serif;font-size:1.05rem;font-weight:700;
+  cursor:pointer;transition:background .2s,transform .15s;
+}
+.btn-play:hover{background:rgba(255,255,255,.85);transform:scale(1.03)}
+.btn-info{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(109,109,110,.7);color:#fff;border:none;
+  padding:13px 28px;border-radius:6px;
+  font-family:'Outfit',sans-serif;font-size:1.05rem;font-weight:600;
+  cursor:pointer;transition:background .2s,transform .15s;
+  backdrop-filter:blur(4px);
+}
+.btn-info:hover{background:rgba(109,109,110,.5);transform:scale(1.03)}
 
-  /* ── HERO ── */
-  .hero {
-    position: relative;
-    width: 100%; height: 100vh;
-    display: flex; align-items: center;
-    overflow: hidden;
-    background: #000;
-  }
-  .hero-video-wrap {
-    position: absolute; inset: 0;
-    pointer-events: none;
-  }
-  .hero-video-wrap iframe {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%) scale(1.15);
-    width: 100vw; height: 56.25vw;
-    min-height: 100vh; min-width: 177.78vh;
-    border: none;
-    opacity: 0.55;
-    filter: brightness(0.7);
-  }
-  .hero-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to right, rgba(0,0,0,.85) 30%, transparent 70%),
-                linear-gradient(to top, rgba(0,0,0,.9) 0%, transparent 40%);
-  }
-  .hero-content {
-    position: relative; z-index: 2;
-    padding: 0 48px;
-    max-width: 600px;
-  }
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(229,9,20,.2); border: 1px solid rgba(229,9,20,.4);
-    color: #ff6b6b; padding: 4px 14px; border-radius: 20px;
-    font-size: .8rem; font-weight: 600; letter-spacing: 1px;
-    text-transform: uppercase; margin-bottom: 18px;
-  }
-  .hero-badge::before { content: '▶'; font-size: .7rem; }
-  .hero-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(3rem, 7vw, 5.5rem);
-    line-height: 1; letter-spacing: 3px;
-    color: #fff;
-    text-shadow: 0 4px 30px rgba(0,0,0,.8);
-    margin-bottom: 16px;
-  }
-  .hero-sub {
-    font-size: 1.05rem; color: rgba(255,255,255,.75);
-    line-height: 1.6; margin-bottom: 28px;
-    font-weight: 300;
-  }
-  .hero-actions { display: flex; gap: 14px; }
-  .btn-play {
-    display: flex; align-items: center; gap: 10px;
-    background: #fff; color: #000;
-    border: none; padding: 13px 30px; border-radius: 6px;
-    font-family: 'Outfit', sans-serif; font-size: 1.05rem; font-weight: 700;
-    cursor: pointer; transition: background .2s, transform .15s;
-  }
-  .btn-play:hover { background: rgba(255,255,255,.85); transform: scale(1.03); }
-  .btn-info {
-    display: flex; align-items: center; gap: 10px;
-    background: rgba(109,109,110,.7); color: #fff;
-    border: none; padding: 13px 28px; border-radius: 6px;
-    font-family: 'Outfit', sans-serif; font-size: 1.05rem; font-weight: 600;
-    cursor: pointer; transition: background .2s, transform .15s;
-    backdrop-filter: blur(4px);
-  }
-  .btn-info:hover { background: rgba(109,109,110,.5); transform: scale(1.03); }
+/* ════════════════════════════════════════════════
+   ROWS / CARDS
+════════════════════════════════════════════════ */
+.row{padding:0 48px 36px;position:relative}
+.row-title{
+  font-size:1.35rem;font-weight:700;
+  margin-bottom:14px;padding-left:4px;
+  display:flex;align-items:center;gap:12px;
+}
+.row-title::after{
+  content:'Explore All ›';
+  font-size:.8rem;font-weight:400;color:var(--gold);
+  opacity:0;transition:opacity .2s;cursor:pointer;
+}
+.row:hover .row-title::after{opacity:1}
+.slider-wrap{position:relative}
+.slider{
+  display:flex;gap:10px;
+  overflow-x:auto;scroll-behavior:smooth;
+  padding:8px 4px 16px;scrollbar-width:none;
+}
+.slider::-webkit-scrollbar{display:none}
+.arrow{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:44px;height:100%;
+  background:linear-gradient(to right,rgba(0,0,0,.8),transparent);
+  border:none;color:#fff;font-size:1.6rem;cursor:pointer;z-index:5;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .25s;
+}
+.arrow.right{right:0;background:linear-gradient(to left,rgba(0,0,0,.8),transparent)}
+.slider-wrap:hover .arrow{opacity:1}
+.card{
+  flex:0 0 190px;height:107px;border-radius:6px;
+  overflow:hidden;position:relative;cursor:pointer;
+  transition:transform .3s cubic-bezier(.25,.46,.45,.94),z-index 0s .3s;
+  background:#222;
+}
+.card:hover{
+  transform:scale(1.28) translateY(-8px);z-index:10;
+  transition:transform .3s cubic-bezier(.25,.46,.45,.94),z-index 0s;
+  border-radius:8px;box-shadow:0 20px 50px rgba(0,0,0,.9);
+}
+.card img{width:100%;height:100%;object-fit:cover;display:block}
+.card-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.85) 0%,transparent 50%);
+  opacity:0;transition:opacity .3s;
+  display:flex;flex-direction:column;justify-content:flex-end;padding:10px;
+}
+.card:hover .card-overlay{opacity:1}
+.card-actions{display:flex;gap:6px;margin-bottom:6px}
+.c-btn{
+  width:28px;height:28px;border-radius:50%;
+  border:2px solid rgba(255,255,255,.7);background:rgba(0,0,0,.6);
+  color:#fff;font-size:.75rem;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:background .2s,border-color .2s;
+}
+.c-btn.play{background:#fff;color:#000;border-color:#fff;font-size:.8rem}
+.card-title{
+  font-size:.72rem;font-weight:600;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.card-meta{font-size:.65rem;color:#4caf50;font-weight:700}
 
-  /* ── MAIN ── */
-  main { padding-top: 0; }
+/* ════════════════════════════════════════════════
+   MODAL
+════════════════════════════════════════════════ */
+.modal-bg{
+  display:none;
+  position:fixed;inset:0;z-index:200;
+  background:rgba(0,0,0,.85);
+  backdrop-filter:blur(6px);
+  align-items:center;justify-content:center;
+}
+.modal-bg.open{display:flex}
+.modal{
+  background:#141414;border-radius:12px;
+  overflow:hidden;
+  width:min(900px,95vw);max-height:90vh;overflow-y:auto;
+  box-shadow:0 30px 80px rgba(0,0,0,.8);
+  animation:modalIn .3s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes modalIn{
+  from{opacity:0;transform:scale(.9) translateY(20px)}
+  to  {opacity:1;transform:scale(1)  translateY(0)}
+}
 
-  /* ── ROW ── */
-  .row { padding: 0 48px 36px; position: relative; }
-  .row-title {
-    font-size: 1.35rem; font-weight: 700;
-    margin-bottom: 14px; padding-left: 4px;
-    display: flex; align-items: center; gap: 12px;
-  }
-  .row-title::after {
-    content: 'Explore All ›';
-    font-size: .8rem; font-weight: 400; color: var(--gold);
-    opacity: 0; transition: opacity .2s; cursor: pointer;
-  }
-  .row:hover .row-title::after { opacity: 1; }
+/* Video box — 16:9 aspect ratio wrapper */
+.modal-video{
+  position:relative;
+  padding-top:56.25%;
+  background:#000;
+  overflow:hidden;
+}
 
-  .slider-wrap { position: relative; }
-  .slider {
-    display: flex; gap: 10px;
-    overflow-x: auto; scroll-behavior: smooth;
-    padding: 8px 4px 16px;
-    scrollbar-width: none;
-  }
-  .slider::-webkit-scrollbar { display: none; }
+/* Inside .modal-video, the iframe wrapper */
+#modalIframeWrap{
+  position:absolute;inset:0;
+  display:none;
+  overflow:hidden;   /* clips the fill-mode overhang */
+  background:#000;
+}
 
-  .arrow {
-    position: absolute; top: 50%; transform: translateY(-50%);
-    width: 44px; height: 100%;
-    background: linear-gradient(to right, rgba(0,0,0,.8), transparent);
-    border: none; color: #fff; font-size: 1.6rem;
-    cursor: pointer; z-index: 5;
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0; transition: opacity .25s;
-  }
-  .arrow.right {
-    right: 0;
-    background: linear-gradient(to left, rgba(0,0,0,.8), transparent);
-  }
-  .slider-wrap:hover .arrow { opacity: 1; }
+/* ── Default (Fit): centre the iframe within box, may have bars ── */
+#modalIframeWrap iframe{
+  position:absolute;
+  top:50%;left:50%;
+  width:100%;height:100%;
+  border:none;
+  transform:translate(-50%,-50%);
+  transition: width .38s cubic-bezier(.4,0,.2,1),
+              height .38s cubic-bezier(.4,0,.2,1),
+              min-width .38s cubic-bezier(.4,0,.2,1),
+              min-height .38s cubic-bezier(.4,0,.2,1);
+}
 
-  /* ── CARD ── */
-  .card {
-    flex: 0 0 190px;
-    height: 107px;
-    border-radius: 6px;
-    overflow: hidden;
-    position: relative;
-    cursor: pointer;
-    transition: transform .3s cubic-bezier(.25,.46,.45,.94), z-index 0s .3s;
-    background: #222;
-  }
-  .card:hover {
-    transform: scale(1.28) translateY(-8px);
-    z-index: 10;
-    transition: transform .3s cubic-bezier(.25,.46,.45,.94), z-index 0s;
-    border-radius: 8px;
-    box-shadow: 0 20px 50px rgba(0,0,0,.9);
-  }
-  .card img {
-    width: 100%; height: 100%;
-    object-fit: cover; display: block;
-    transition: opacity .3s;
-  }
-  .card-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,.85) 0%, transparent 50%);
-    opacity: 0; transition: opacity .3s;
-    display: flex; flex-direction: column;
-    justify-content: flex-end; padding: 10px;
-  }
-  .card:hover .card-overlay { opacity: 1; }
-  .card-actions { display: flex; gap: 6px; margin-bottom: 6px; }
-  .c-btn {
-    width: 28px; height: 28px; border-radius: 50%;
-    border: 2px solid rgba(255,255,255,.7);
-    background: rgba(0,0,0,.6);
-    color: #fff; font-size: .75rem;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: background .2s, border-color .2s;
-  }
-  .c-btn.play { background: #fff; color: #000; border-color: #fff; font-size: .8rem; }
-  .c-btn:hover { border-color: #fff; }
-  .card-title {
-    font-size: .72rem; font-weight: 600;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  }
-  .card-meta { font-size: .65rem; color: #4caf50; font-weight: 700; }
+/* ── Fill mode: crop-to-fill, no black bars ── */
+#modalIframeWrap.fill-mode iframe{
+  width:100vw;
+  height:56.25vw;
+  min-width:177.77vh;
+  min-height:100vh;
+  /* transform stays translate(-50%,-50%) — inherited */
+}
 
-  /* ── MODAL ── */
-  .modal-bg {
-    display: none;
-    position: fixed; inset: 0; z-index: 200;
-    background: rgba(0,0,0,.85);
-    backdrop-filter: blur(6px);
-    align-items: center; justify-content: center;
-  }
-  .modal-bg.open { display: flex; }
-  .modal {
-    background: #141414;
-    border-radius: 12px;
-    overflow: hidden;
-    width: min(900px, 95vw);
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 30px 80px rgba(0,0,0,.8);
-    animation: modalIn .3s cubic-bezier(.34,1.56,.64,1);
-  }
-  @keyframes modalIn {
-    from { opacity: 0; transform: scale(.9) translateY(20px); }
-    to   { opacity: 1; transform: scale(1) translateY(0); }
-  }
-  .modal-video {
-    position: relative;
-    padding-top: 56.25%;
-    background: #000;
-  }
-  .modal-video iframe {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%;
-    border: none;
-  }
-  .modal-close {
-    position: absolute; top: 14px; right: 14px;
-    width: 36px; height: 36px; border-radius: 50%;
-    background: rgba(0,0,0,.7); border: none; color: #fff;
-    font-size: 1.2rem; cursor: pointer; z-index: 5;
-    display: flex; align-items: center; justify-content: center;
-    transition: background .2s;
-  }
-  .modal-close:hover { background: rgba(255,255,255,.2); }
-  .modal-body { padding: 24px 30px 30px; }
-  .modal-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2rem; letter-spacing: 2px; margin-bottom: 8px;
-  }
-  .modal-desc { font-size: .95rem; color: rgba(255,255,255,.7); line-height: 1.7; }
+/* Close button */
+.modal-close{
+  position:absolute;top:14px;right:14px;
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(0,0,0,.7);border:none;color:#fff;
+  font-size:1.2rem;cursor:pointer;z-index:40;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s;
+}
+.modal-close:hover{background:rgba(255,255,255,.2)}
 
-  /* ─────────────────────────────────────────────────
-     MOBILE FULLSCREEN — custom button (touch devices)
-  ───────────────────────────────────────────────── */
-  #mobFsBtn {
-    /* Hidden by default; shown only on touch/mobile in JS */
-    display: none;
-    position: absolute;
-    bottom: 11px;
-    right: 11px;
-    z-index: 30;
-    width: 40px; height: 40px;
-    border-radius: 7px;
-    background: rgba(0,0,0,.78);
-    border: 1.5px solid rgba(255,255,255,.55);
-    color: #fff;
-    font-size: 1.05rem;
-    align-items: center; justify-content: center;
-    cursor: pointer;
-    backdrop-filter: blur(4px);
-    -webkit-tap-highlight-color: transparent;
-    transition: background .2s, border-color .2s, transform .15s;
-    /* SVG expand icon rendered inline via background */
-  }
-  #mobFsBtn:active {
-    background: rgba(229,9,20,.75);
-    border-color: var(--red);
-    transform: scale(.93);
-  }
-  /* Show on any touch/coarse-pointer device */
-  @media (pointer: coarse) {
-    #mobFsBtn { display: flex; }
-  }
+.modal-body{padding:24px 30px 30px}
+.modal-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:2rem;letter-spacing:2px;margin-bottom:8px;
+}
+.modal-desc{font-size:.95rem;color:rgba(255,255,255,.7);line-height:1.7}
 
-  /* ─────────────────────────────────────────────────────────────
-     iOS LANDSCAPE TRICK
-     When screen.orientation.lock() is unavailable (iOS Safari),
-     we fake landscape by:
-       1. Making the modal-video go position:fixed, full viewport
-       2. Rotating it 90deg inside the fixed container
-     A dedicated exit button is shown so the user can return.
-  ───────────────────────────────────────────────────────────── */
+/* ════════════════════════════════════════════════
+   POSTER / PLAY SPLASH
+════════════════════════════════════════════════ */
+#modalPosterWrap{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  background:#000;cursor:pointer;
+}
+#modalPosterImg{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;opacity:.6;
+}
+#modalPlayCircle{
+  position:relative;z-index:2;
+  width:80px;height:80px;border-radius:50%;
+  background:rgba(229,9,20,.85);
+  display:flex;align-items:center;justify-content:center;
+  font-size:2rem;color:#fff;
+  box-shadow:0 0 40px rgba(229,9,20,.5);
+  transition:transform .2s;
+}
+#modalPlayCircle:hover{transform:scale(1.08)}
 
-  /* Applied to <body> when iOS fake-landscape is active */
-  body.ios-fs-active {
-    overflow: hidden;
-  }
-
-  /* The fixed overlay behind the rotated video */
-  #iosFsOverlay {
-    display: none;
-    position: fixed; inset: 0;
-    z-index: 9000;
-    background: #000;
-    align-items: center; justify-content: center;
-  }
-  body.ios-fs-active #iosFsOverlay { display: flex; }
-
-  /* Rotated video container inside the overlay */
-  #iosFsVideoWrap {
-    /* Portrait: height = vw, width = vh  (90deg rotate swaps axes) */
-    width: 100vh;
-    height: 100vw;
-    position: relative;
-    transform: rotate(90deg);
-    transform-origin: center center;
-    background: #000;
-  }
-  #iosFsVideoWrap iframe {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%;
-    border: none;
-  }
-
-  /* Exit button for iOS fake-landscape (top-left, counter-rotated) */
-  #iosFsExit {
-    position: fixed;
-    /* top-left of the VISUAL landscape, which is top of portrait screen */
-    top: 14px; left: 14px;
-    z-index: 9001;
-    width: 38px; height: 38px;
-    border-radius: 50%;
-    background: rgba(0,0,0,.8);
-    border: 1.5px solid rgba(255,255,255,.55);
-    color: #fff; font-size: 1.1rem;
-    cursor: pointer;
-    display: none;
-    align-items: center; justify-content: center;
-    transform: rotate(90deg); /* counter-rotate so ✕ is readable */
-    -webkit-tap-highlight-color: transparent;
-  }
-  body.ios-fs-active #iosFsExit { display: flex; }
-
-  /* ══════════════════════════════════════════════════════
-     FILL / FIT TOGGLE  — Netflix-style crop-to-fill
-  ══════════════════════════════════════════════════════ */
-
-  /* ── The pill button ── */
-  .fill-pill {
-    display: none;               /* shown via JS on touch only */
-    align-items: center;
-    gap: 7px;
-    padding: 6px 13px 6px 10px;
-    background: rgba(0,0,0,.72);
-    border: 1.5px solid rgba(255,255,255,.32);
-    border-radius: 20px;
-    color: rgba(255,255,255,.85);
-    font-family: 'Outfit', sans-serif;
-    font-size: .72rem;
-    font-weight: 600;
-    letter-spacing: .05em;
-    text-transform: uppercase;
-    cursor: pointer;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    -webkit-tap-highlight-color: transparent;
-    transition: background .25s, border-color .25s, color .25s, transform .15s;
-    white-space: nowrap;
-  }
-  @media (pointer: coarse) { .fill-pill { display: inline-flex; } }
-
-  .fill-pill:active { transform: scale(.92); }
-
-  /* Active = Fill mode is ON */
-  .fill-pill.is-fill {
-    background: rgba(245,197,24,.16);
-    border-color: rgba(245,197,24,.55);
-    color: var(--gold);
-  }
-  .fill-pill svg { flex-shrink: 0; transition: transform .3s ease; }
-  .fill-pill.is-fill svg { transform: scale(.82); }
-
-  /* ── Fill pill sitting in #modalIframeWrap (Android FS) ── */
-  #modalFillPill {
-    position: absolute;
-    /* bottom-center, sits above YouTube controls */
-    bottom: 68px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 30;
-  }
-
-  /* ── iOS overlay fill pill (fixed, counter-rotated to match exit btn) ── */
-  #iosFillPill {
-    position: fixed;
-    top: 14px;
-    right: 14px;          /* top-right of portrait = top-right of visual landscape */
-    z-index: 9001;
-    display: none;        /* overridden below when overlay is active */
-    transform: rotate(90deg);   /* counter-rotate so text reads correctly */
-    transform-origin: center;
-  }
-  body.ios-fs-active #iosFillPill { display: inline-flex; }
-
-  /* ── iframe transition for smooth fill ↔ fit ── */
-  #iosFsVideoWrap iframe,
-  #modalIframeWrap iframe {
-    transition: width .35s ease, height .35s ease,
-                min-width .35s ease, min-height .35s ease;
-  }
-
-  /* ─── iOS overlay: #iosFsVideoWrap must clip the overflow ─── */
-  #iosFsVideoWrap {
-    overflow: hidden;   /* critical — clips the fill-mode overhang */
-  }
+/* ════════════════════════════════════════════════
+   ★  FILL / FIT PILL BUTTON
+   Netflix-style. Visible only on touch (coarse pointer).
+   Lives inside #modalVideoBox so it works in fullscreen.
+════════════════════════════════════════════════ */
+#fillPill{
+  /* Hidden on desktop mouse; always shown on touch */
+  display:none;
+  position:absolute;
 
   /*
-   * iOS Fill mode
-   * Container DOM: width=100vh, height=100vw (swapped for rotation)
-   * We want the iframe (16:9) to overflow the container height (=100vw)
-   * so the top/bottom crop naturally without stretching.
-   *
-   * Width-first approach:
-   *   iframe width  = 100vh  (fills container width exactly)
-   *   iframe height = 56.25vh (= width * 9/16)
-   * Since 56.25vh > 100vw for portrait phones (56.25*844 = 475 > 390),
-   * the iframe overflows the container height → perfectly crops. ✓
+   * Position: bottom-centre, floating above YouTube controls.
+   * 72px from bottom keeps clear of the YouTube progress bar (~56px).
    */
-  #iosFsVideoWrap.fill-mode iframe {
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 100vh;
-    height: 56.25vh;
-    min-width: 177.77vw;   /* ensure fill from the other axis too */
-    min-height: 100vw;
-    max-width: none;
-    transform: translate(-50%, -50%);
-  }
+  bottom:72px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:35;
 
-  /* ─── Android container fullscreen ─── */
-  /*
-   * When we request fullscreen on #modalVideoBox (not the iframe),
-   * the container becomes 100vw × 100vh.
-   * We reset the padding-top trick and use explicit dimensions.
-   */
-  #modalVideoBox:fullscreen,
-  #modalVideoBox:-webkit-full-screen {
-    padding-top: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #000;
-    border-radius: 0;
-  }
-  #modalVideoBox:fullscreen .modal-close,
-  #modalVideoBox:-webkit-full-screen .modal-close {
-    /* keep ✕ visible in fullscreen */
-    display: flex;
-  }
-  #modalVideoBox:fullscreen #modalIframeWrap,
-  #modalVideoBox:-webkit-full-screen #modalIframeWrap {
-    position: absolute;
-    inset: 0;
-    display: block !important;
-    overflow: hidden;
-  }
+  /* Pill shape */
+  align-items:center;
+  gap:7px;
+  padding:7px 16px 7px 11px;
+  border-radius:24px;
 
-  /* Fit (default): center 16:9 video, black bars allowed */
-  #modalVideoBox:fullscreen #modalIframeWrap:not(.fill-mode) iframe,
-  #modalVideoBox:-webkit-full-screen #modalIframeWrap:not(.fill-mode) iframe {
-    position: absolute;
-    top: 50%; left: 50%;
-    height: 100vh;
-    width: 177.77vh;      /* 16:9 of height */
-    max-width: 100vw;     /* don't overflow wider than screen */
-    transform: translate(-50%, -50%);
-  }
+  /* Premium dark glass look */
+  background:rgba(0,0,0,.68);
+  border:1.5px solid rgba(255,255,255,.28);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  box-shadow:0 4px 24px rgba(0,0,0,.45),
+             inset 0 1px 0 rgba(255,255,255,.08);
 
-  /* Fill: crop-to-fill, no black bars */
-  #modalVideoBox:fullscreen #modalIframeWrap.fill-mode iframe,
-  #modalVideoBox:-webkit-full-screen #modalIframeWrap.fill-mode iframe {
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 100vw;
-    height: 56.25vw;
-    min-width: 177.77vh;
-    min-height: 100vh;
-    max-width: none;
-    transform: translate(-50%, -50%);
-  }
+  color:rgba(255,255,255,.9);
+  font-family:'Outfit',sans-serif;
+  font-size:.73rem;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  white-space:nowrap;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  transition:
+    background .28s ease,
+    border-color .28s ease,
+    color .28s ease,
+    box-shadow .28s ease,
+    transform .14s ease;
+}
 
-  /* ── FOOTER ── */
-  footer {
-    padding: 40px 48px;
-    border-top: 1px solid #222;
-    color: var(--muted); font-size: .85rem;
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  .footer-logo {
-    font-family: 'Bebas Neue'; font-size: 1.4rem;
-    color: var(--red); letter-spacing: 3px;
-  }
+/* Only show on touch devices */
+@media (pointer: coarse){
+  #fillPill{ display:inline-flex }
+}
 
-  /* ── SCROLLBAR ── */
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: var(--dark); }
-  ::-webkit-scrollbar-thumb { background: #444; border-radius: 2px; }
+/* Press feedback */
+#fillPill:active{ transform:translateX(-50%) scale(.91) }
 
-  @media (max-width: 768px) {
-    nav { padding: 0 20px; }
-    .hero-content { padding: 0 20px; }
-    .row { padding: 0 20px 28px; }
-    .card { flex: 0 0 140px; height: 79px; }
-  }
+/* ── Active = currently in FILL mode → show "Fit" label ── */
+#fillPill.is-fill{
+  background:rgba(245,197,24,.15);
+  border-color:rgba(245,197,24,.55);
+  color:var(--gold);
+  box-shadow:0 4px 28px rgba(245,197,24,.18),
+             inset 0 1px 0 rgba(255,255,255,.1);
+}
+
+/* Icon container */
+#fillPill .pill-icon{ flex-shrink:0; line-height:0 }
+#fillPill .pill-icon svg{
+  display:block;
+  transition:transform .32s cubic-bezier(.34,1.56,.64,1);
+}
+#fillPill.is-fill .pill-icon svg{ transform:scale(.82) }
+
+/* ════════════════════════════════════════════════
+   MOBILE FULLSCREEN BUTTON  (#mobFsBtn)
+   Bottom-right corner, only on touch devices.
+════════════════════════════════════════════════ */
+#mobFsBtn{
+  display:none;   /* JS shows it after video starts on touch device */
+  position:absolute;
+  bottom:11px;right:11px;
+  z-index:35;
+  width:40px;height:40px;
+  border-radius:8px;
+  background:rgba(0,0,0,.72);
+  border:1.5px solid rgba(255,255,255,.35);
+  color:#fff;
+  align-items:center;justify-content:center;
+  cursor:pointer;
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  box-shadow:0 2px 12px rgba(0,0,0,.5),
+             inset 0 1px 0 rgba(255,255,255,.06);
+  -webkit-tap-highlight-color:transparent;
+  transition:background .2s,border-color .2s,transform .14s;
+}
+#mobFsBtn:active{
+  background:rgba(229,9,20,.72);
+  border-color:var(--red);
+  transform:scale(.91);
+}
+@media (pointer: coarse){
+  #mobFsBtn{ display:flex }
+}
+
+/* ════════════════════════════════════════════════
+   ANDROID — modalVideoBox IN FULLSCREEN
+   When the container goes fullscreen we override the
+   padding-top trick and lay out manually.
+════════════════════════════════════════════════ */
+#modalVideoBox:fullscreen,
+#modalVideoBox:-webkit-full-screen{
+  padding-top:0 !important;
+  width:100vw !important;
+  height:100vh !important;
+  background:#000;
+  border-radius:0;
+  overflow:hidden;
+}
+
+/* In container-fullscreen mode, iframe wrap fills the box */
+#modalVideoBox:fullscreen #modalIframeWrap,
+#modalVideoBox:-webkit-full-screen #modalIframeWrap{
+  position:absolute;
+  inset:0;
+  display:block !important;
+  overflow:hidden;
+}
+
+/*
+ * FIT  (default when entering fullscreen)  — video centred, same as normal
+ * The iframe CSS already handles this (top/left 50%, translate -50%).
+ * We just ensure it stays aspect-correct. Height-first on landscape.
+ */
+#modalVideoBox:fullscreen #modalIframeWrap:not(.fill-mode) iframe,
+#modalVideoBox:-webkit-full-screen #modalIframeWrap:not(.fill-mode) iframe{
+  width:177.77vh;     /* 16:9 of viewport height */
+  height:100vh;
+  min-width:unset;
+  min-height:unset;
+}
+
+/*
+ * FILL — crop-to-fill, black bars gone
+ */
+#modalVideoBox:fullscreen #modalIframeWrap.fill-mode iframe,
+#modalVideoBox:-webkit-full-screen #modalIframeWrap.fill-mode iframe{
+  width:100vw;
+  height:56.25vw;
+  min-width:177.77vh;
+  min-height:100vh;
+}
+
+/* ════════════════════════════════════════════════
+   iOS FAKE-LANDSCAPE OVERLAY
+   iOS Safari: no orientation lock, no container FS.
+   We rotate a fixed overlay 90° instead.
+════════════════════════════════════════════════ */
+body.ios-fs-active{ overflow:hidden }
+
+#iosFsOverlay{
+  display:none;
+  position:fixed;inset:0;z-index:9000;
+  background:#000;
+  align-items:center;justify-content:center;
+}
+body.ios-fs-active #iosFsOverlay{ display:flex }
+
+/*
+ * The container that gets rotated.
+ * Portrait viewport: width=W, height=H (W < H on phones).
+ * After rotate(90deg) the axes swap, so we set:
+ *   container.width  = H (= 100vh in portrait)
+ *   container.height = W (= 100vw in portrait)
+ * This makes the rotated container exactly fill the screen.
+ */
+#iosFsVideoWrap{
+  width:100vh;
+  height:100vw;
+  position:relative;
+  transform:rotate(90deg);
+  transform-origin:center center;
+  overflow:hidden;          /* clips fill-mode overhang */
+  background:#000;
+  flex-shrink:0;
+}
+
+/* Iframe default (Fit): fills the rotated container exactly */
+#iosFsVideoWrap iframe{
+  position:absolute;
+  inset:0;
+  width:100%;height:100%;
+  border:none;
+  transition:
+    width .38s cubic-bezier(.4,0,.2,1),
+    height .38s cubic-bezier(.4,0,.2,1),
+    min-width .38s cubic-bezier(.4,0,.2,1),
+    min-height .38s cubic-bezier(.4,0,.2,1),
+    top .38s cubic-bezier(.4,0,.2,1),
+    left .38s cubic-bezier(.4,0,.2,1);
+}
+
+/*
+ * iOS Fill mode
+ * Container (post-rotate visual) = 100vh wide × 100vw tall
+ *   → we want the 16:9 iframe to OVERFLOW the height
+ *   → width stays 100vh (= visual width); height = 100vh * 9/16 = 56.25vh
+ *   Since 56.25vh > 100vw in portrait (vh > vw), the video overflows
+ *   the container vertically → top/bottom crop. ✓
+ */
+#iosFsVideoWrap.fill-mode iframe{
+  position:absolute;
+  top:50%;left:50%;
+  width:100vh;           /* fill visual width */
+  height:56.25vh;        /* 16:9, will overflow height → crop */
+  min-width:177.77vw;    /* safety for very wide devices */
+  min-height:100vw;
+  transform:translate(-50%,-50%);
+}
+
+/* ── iOS overlay controls (counter-rotated so they're readable) ── */
+/* We place them at fixed corners of the PORTRAIT screen, which
+   correspond to logical positions in the VISUAL landscape. */
+
+/* Exit (✕) — top-left of visual landscape = top-left portrait */
+#iosFsExit{
+  position:fixed;
+  top:16px;left:16px;
+  z-index:9001;
+  width:38px;height:38px;border-radius:50%;
+  background:rgba(0,0,0,.78);
+  border:1.5px solid rgba(255,255,255,.35);
+  color:#fff;font-size:1.1rem;
+  cursor:pointer;
+  display:none;
+  align-items:center;justify-content:center;
+  transform:rotate(90deg);   /* counter-rotate so ✕ reads upright */
+  -webkit-tap-highlight-color:transparent;
+  transition:background .2s,transform .14s;
+  box-shadow:0 2px 12px rgba(0,0,0,.5);
+}
+body.ios-fs-active #iosFsExit{ display:flex }
+#iosFsExit:active{
+  background:rgba(229,9,20,.72);
+  transform:rotate(90deg) scale(.9);
+}
+
+/*
+ * iOS Fill pill — top-right of visual landscape = bottom-left portrait.
+ * In portrait coords: bottom=16, left=50% (centred on visual landscape midline)
+ * We counter-rotate the pill 90° so text reads in landscape direction.
+ */
+#iosFillPill{
+  position:fixed;
+  /* place at visual bottom-centre of landscape:
+     portrait bottom=16px, left=50% (= midpoint of portrait width = midpoint of landscape height) */
+  bottom:72px;
+  left:50%;
+  z-index:9001;
+  display:none;
+  transform:rotate(90deg) translateX(-50%);
+  transform-origin:left center;
+
+  /* same pill styling */
+  align-items:center;gap:7px;
+  padding:7px 16px 7px 11px;border-radius:24px;
+  background:rgba(0,0,0,.68);
+  border:1.5px solid rgba(255,255,255,.28);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  box-shadow:0 4px 24px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.08);
+  color:rgba(255,255,255,.9);
+  font-family:'Outfit',sans-serif;font-size:.73rem;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;
+  cursor:pointer;-webkit-tap-highlight-color:transparent;
+  transition:background .28s,border-color .28s,color .28s,box-shadow .28s;
+}
+body.ios-fs-active #iosFillPill{ display:inline-flex }
+#iosFillPill.is-fill{
+  background:rgba(245,197,24,.15);
+  border-color:rgba(245,197,24,.55);
+  color:var(--gold);
+  box-shadow:0 4px 28px rgba(245,197,24,.18),inset 0 1px 0 rgba(255,255,255,.1);
+}
+#iosFillPill .pill-icon{ flex-shrink:0;line-height:0 }
+#iosFillPill .pill-icon svg{
+  display:block;
+  transition:transform .32s cubic-bezier(.34,1.56,.64,1);
+}
+#iosFillPill.is-fill .pill-icon svg{ transform:scale(.82) }
+
+/* ════════════════════════════════════════════════
+   BLOCKED FALLBACK
+════════════════════════════════════════════════ */
+#modalBlocked{
+  position:absolute;inset:0;
+  display:none;
+  flex-direction:column;align-items:center;justify-content:center;
+  background:#0a0a0a;gap:18px;text-align:center;padding:30px;
+}
+
+/* ════════════════════════════════════════════════
+   FOOTER
+════════════════════════════════════════════════ */
+footer{
+  padding:40px 48px;
+  border-top:1px solid #222;
+  color:var(--muted);font-size:.85rem;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.footer-logo{
+  font-family:'Bebas Neue';font-size:1.4rem;
+  color:var(--red);letter-spacing:3px;
+}
+
+/* ════════════════════════════════════════════════
+   SCROLLBAR
+════════════════════════════════════════════════ */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--dark)}
+::-webkit-scrollbar-thumb{background:#444;border-radius:2px}
+
+@media (max-width:768px){
+  nav{padding:0 20px}
+  .hero-content{padding:0 20px}
+  .row{padding:0 20px 28px}
+  .card{flex:0 0 140px;height:79px}
+}
 </style>
 </head>
 <body>
@@ -553,10 +642,8 @@
   <div class="hero-video-wrap">
     <iframe id="heroIframe"
       src="https://www.youtube-nocookie.com/embed/pQN-pnXPaVg?autoplay=1&mute=1&loop=1&playlist=pQN-pnXPaVg&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
-      title="Hero"
-      allow="autoplay; encrypted-media"
-      referrerpolicy="strict-origin-when-cross-origin"
-      allowfullscreen></iframe>
+      title="Hero" allow="autoplay; encrypted-media"
+      referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
   </div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
@@ -564,13 +651,13 @@
     <h1 class="hero-title">Chitrapat<br>Originals</h1>
     <p class="hero-sub">Unlimited films, TV programmes and more. Watch anywhere. Cancel at any time.</p>
     <div class="hero-actions">
-      <button class="btn-play" onclick="openModal('pQN-pnXPaVg','Featured Film')">▶ Play</button>
+      <button class="btn-play" onclick="openModal('pQN-pnXPaVg')">▶ Play</button>
       <button class="btn-info">ⓘ More Info</button>
     </div>
   </div>
 </section>
 
-<!-- ROWS -->
+<!-- CONTENT ROWS -->
 <main id="main"></main>
 
 <!-- FOOTER -->
@@ -579,35 +666,53 @@
   <div>© 2025 Chitrapat. All rights reserved.</div>
 </footer>
 
-<!-- MODAL -->
+<!-- ══════════════════════════════════════════════
+     MODAL
+══════════════════════════════════════════════ -->
 <div class="modal-bg" id="modalBg" onclick="closeModalBg(event)">
   <div class="modal" id="modal">
+
+    <!-- Video box: this is what we fullscreen on Android -->
     <div class="modal-video" id="modalVideoBox">
+
+      <!-- ✕ Close (always visible) -->
       <button class="modal-close" onclick="closeModal()">✕</button>
 
-      <!-- Poster / play screen shown before video loads -->
-      <div id="modalPosterWrap"
-           style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#000;cursor:pointer;"
-           onclick="startPlay()">
-        <img id="modalPosterImg" src="" alt=""
-             style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.6;">
-        <div id="modalPlayCircle"
-             style="position:relative;z-index:2;width:80px;height:80px;border-radius:50%;background:rgba(229,9,20,.85);display:flex;align-items:center;justify-content:center;font-size:2rem;color:#fff;box-shadow:0 0 40px rgba(229,9,20,.5);transition:transform .2s;">▶</div>
-        <div style="position:relative;z-index:2;margin-top:16px;font-size:.9rem;color:rgba(255,255,255,.8);font-weight:500;">Click to Play</div>
+      <!-- Poster splash -->
+      <div id="modalPosterWrap" onclick="startPlay()">
+        <img id="modalPosterImg" src="" alt="">
+        <div id="modalPlayCircle">▶</div>
+        <div style="position:relative;z-index:2;margin-top:16px;font-size:.9rem;color:rgba(255,255,255,.8);font-weight:500">Click to Play</div>
       </div>
 
-      <!-- Actual iframe, inserted only when user clicks play -->
-      <div id="modalIframeWrap" style="position:absolute;inset:0;display:none;"></div>
+      <!-- Iframe lives here -->
+      <div id="modalIframeWrap"></div>
 
-      <!--
-        ★ CUSTOM MOBILE FULLSCREEN BUTTON
-        Sits bottom-right over the video; only visible on touch screens.
-        On Android  → native Fullscreen API + screen.orientation.lock('landscape')
-        On iOS      → CSS rotate trick (iosFsOverlay)
-      -->
-      <button id="mobFsBtn" title="Fullscreen" aria-label="Enter fullscreen">
-        <!-- Expand / fullscreen SVG icon -->
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- ★  FILL / FIT PILL — centred bottom, above YT controls -->
+      <button id="fillPill" onclick="toggleFill()" aria-label="Toggle fill mode">
+        <span class="pill-icon">
+          <!-- Crop/expand icon -->
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5"
+               stroke-linecap="round" stroke-linejoin="round">
+            <!-- top-left corner -->
+            <polyline points="1 9 1 1 9 1"/>
+            <!-- top-right corner -->
+            <polyline points="15 1 23 1 23 9"/>
+            <!-- bottom-right corner -->
+            <polyline points="23 15 23 23 15 23"/>
+            <!-- bottom-left corner -->
+            <polyline points="9 23 1 23 1 15"/>
+          </svg>
+        </span>
+        <span id="fillLabel">Fit</span>
+      </button>
+
+      <!-- ★  MOBILE FULLSCREEN BUTTON — bottom-right -->
+      <button id="mobFsBtn" onclick="enterFullscreen()" aria-label="Enter fullscreen">
+        <svg width="17" height="17" viewBox="0 0 18 18" fill="none"
+             stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
           <polyline points="1 6 1 1 6 1"/>
           <polyline points="12 1 17 1 17 6"/>
           <polyline points="17 12 17 17 12 17"/>
@@ -616,300 +721,243 @@
       </button>
 
       <!-- Blocked video fallback -->
-      <div id="modalBlocked"
-           style="position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;background:#0a0a0a;gap:18px;text-align:center;padding:30px;">
-        <div style="font-size:3rem;">🚫</div>
-        <div style="font-size:1.1rem;font-weight:700;color:#fff;">Embedding Disabled by Uploader</div>
-        <div style="font-size:.9rem;color:#aaa;max-width:360px;">The video owner has turned off embedding for this video. You can still watch it directly on YouTube.</div>
+      <div id="modalBlocked">
+        <div style="font-size:3rem">🚫</div>
+        <div style="font-size:1.1rem;font-weight:700;color:#fff">Embedding Disabled by Uploader</div>
+        <div style="font-size:.9rem;color:#aaa;max-width:360px">The video owner turned off embedding. Watch it directly on YouTube.</div>
         <a id="modalYTLink" href="#" target="_blank" rel="noopener"
-           style="display:inline-flex;align-items:center;gap:10px;background:#ff0000;color:#fff;text-decoration:none;padding:13px 28px;border-radius:8px;font-weight:700;font-size:1rem;transition:background .2s;">
+           style="display:inline-flex;align-items:center;gap:10px;background:#f00;color:#fff;text-decoration:none;padding:13px 28px;border-radius:8px;font-weight:700;font-size:1rem">
           ▶ Watch on YouTube
         </a>
       </div>
-    </div>
+    </div><!-- /modal-video -->
 
+    <!-- Text metadata below video -->
     <div class="modal-body">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap">
         <div>
           <div class="modal-title" id="modalTitle">Loading…</div>
-          <div style="font-size:.85rem;color:#4caf50;font-weight:600;margin-bottom:8px;" id="modalMeta">HD • Chitrapat Original</div>
+          <div style="font-size:.85rem;color:#4caf50;font-weight:600;margin-bottom:8px" id="modalMeta">HD • Chitrapat Original</div>
         </div>
         <a id="modalExtLink" href="#" target="_blank" rel="noopener"
-           style="flex-shrink:0;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;text-decoration:none;padding:8px 16px;border-radius:6px;font-size:.82rem;white-space:nowrap;transition:background .2s;">
+           style="flex-shrink:0;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;text-decoration:none;padding:8px 16px;border-radius:6px;font-size:.82rem;white-space:nowrap">
           ↗ YouTube
         </a>
       </div>
       <div class="modal-desc" id="modalDesc">Watch this amazing title on Chitrapat.</div>
     </div>
-  </div>
-</div>
 
-<!--
-  ══════════════════════════════════════════════════════════
-  iOS FAKE-LANDSCAPE OVERLAY
-  Sits above everything. The inner wrap rotates 90deg so the
-  iframe fills the screen in "landscape" without actually
-  rotating the device orientation.
-  ══════════════════════════════════════════════════════════
--->
+  </div><!-- /modal -->
+</div><!-- /modal-bg -->
+
+<!-- ══════════════════════════════════════════════
+     iOS FAKE-LANDSCAPE OVERLAY
+     (outside modal so it sits above everything)
+══════════════════════════════════════════════ -->
 <div id="iosFsOverlay">
   <div id="iosFsVideoWrap">
-    <!-- iframe cloned here by JS when iOS fake-FS activates -->
+    <!-- fresh iframe injected by JS -->
   </div>
 </div>
-<!-- Exit button for iOS fake-landscape (outside overlay so no rotation) -->
-<button id="iosFsExit" onclick="exitIosFs()" aria-label="Exit fullscreen">✕</button>
 
+<!-- iOS overlay controls (fixed, counter-rotated) -->
+<button id="iosFsExit"     onclick="exitIosFs()"     aria-label="Exit fullscreen">✕</button>
+<button id="iosFillPill"   onclick="toggleIosFill()" aria-label="Toggle fill mode">
+  <span class="pill-icon">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2.5"
+         stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="1 9 1 1 9 1"/>
+      <polyline points="15 1 23 1 23 9"/>
+      <polyline points="23 15 23 23 15 23"/>
+      <polyline points="9 23 1 23 1 15"/>
+    </svg>
+  </span>
+  <span id="iosFillLabel">Fit</span>
+</button>
 
+<!-- ══════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════ -->
 <script>
-/* ═══════════════════════════════════════════════════════════════
-   DEVICE / CAPABILITY DETECTION
-═══════════════════════════════════════════════════════════════ */
-const IS_IOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-const IS_TOUCH = navigator.maxTouchPoints > 0 || 'ontouchstart' in window;
+/* ─── Device detection ─────────────────────────── */
+const IS_IOS    = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+const IS_TOUCH  = navigator.maxTouchPoints > 0 || 'ontouchstart' in window;
+const CAN_LOCK  = !IS_IOS && !!screen.orientation && typeof screen.orientation.lock === 'function';
 
-// Does the browser support orientation lock?
-const CAN_LOCK_ORIENTATION =
-  !IS_IOS &&
-  !!screen.orientation &&
-  typeof screen.orientation.lock === 'function';
+/* ─── State ─────────────────────────────────────── */
+let currentId   = '';
+let isFillMode  = false;   // shared between Android & iOS paths
+let iosFsActive = false;
+let iosFsIframe = null;
 
-/* ═══════════════════════════════════════════════════════════════
-   ORIENTATION LOCK HELPERS
-═══════════════════════════════════════════════════════════════ */
+/* ─── Orientation helpers ───────────────────────── */
 async function lockLandscape() {
-  if (!CAN_LOCK_ORIENTATION) return;
-  try {
-    await screen.orientation.lock('landscape');
-  } catch (e) {
-    // Permission denied or not in fullscreen yet — silently ignore
-    console.warn('[Chitrapat] orientation lock:', e.message);
-  }
+  if (!CAN_LOCK) return;
+  try { await screen.orientation.lock('landscape'); } catch(e){ console.warn('[FS] orient:', e.message); }
 }
-
 function unlockOrientation() {
-  if (!CAN_LOCK_ORIENTATION) return;
-  try { screen.orientation.unlock(); } catch (_) {}
+  if (!CAN_LOCK) return;
+  try { screen.orientation.unlock(); } catch(_){}
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   NATIVE FULLSCREEN HELPERS
-═══════════════════════════════════════════════════════════════ */
+/* ─── Native fullscreen helpers ─────────────────── */
 function requestFs(el) {
-  if      (el.requestFullscreen)       return el.requestFullscreen();
-  else if (el.webkitRequestFullscreen) return el.webkitRequestFullscreen();
-  else if (el.mozRequestFullScreen)    return el.mozRequestFullScreen();
-  else if (el.msRequestFullscreen)     return el.msRequestFullscreen();
-  return Promise.resolve();
+  return (el.requestFullscreen       || el.webkitRequestFullscreen ||
+          el.mozRequestFullScreen    || el.msRequestFullscreen     ||
+          (()=>Promise.resolve())).call(el);
 }
-
 function exitFs() {
-  if      (document.exitFullscreen)       return document.exitFullscreen();
-  else if (document.webkitExitFullscreen) return document.webkitExitFullscreen();
-  else if (document.mozCancelFullScreen)  return document.mozCancelFullScreen();
-  else if (document.msExitFullscreen)     return document.msExitFullscreen();
-  return Promise.resolve();
+  return (document.exitFullscreen       || document.webkitExitFullscreen ||
+          document.mozCancelFullScreen  || document.msExitFullscreen     ||
+          (()=>Promise.resolve())).call(document);
+}
+function fsElement() {
+  return document.fullscreenElement || document.webkitFullscreenElement ||
+         document.mozFullScreenElement || null;
 }
 
-function fullscreenElement() {
-  return document.fullscreenElement
-      || document.webkitFullscreenElement
-      || document.mozFullScreenElement
-      || null;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   GLOBAL fullscreenchange LISTENER
-   Handles BOTH our custom button AND YouTube's native FS button
-   (which fires this event on Android Chrome when the iframe
-   delegates fullscreen to the parent document).
-═══════════════════════════════════════════════════════════════ */
-['fullscreenchange', 'webkitfullscreenchange', 'mozfullscreenchange'].forEach(evt => {
-  document.addEventListener(evt, () => {
-    if (fullscreenElement()) {
-      // Entered fullscreen → lock landscape (Android / desktop)
-      lockLandscape();
-    } else {
-      // Exited fullscreen → release orientation lock
-      unlockOrientation();
-    }
+/* ─── fullscreenchange → lock orientation ───────── */
+['fullscreenchange','webkitfullscreenchange','mozfullscreenchange'].forEach(e => {
+  document.addEventListener(e, () => {
+    if (fsElement()) lockLandscape();
+    else             unlockOrientation();
   });
 });
 
-/* ═══════════════════════════════════════════════════════════════
-   iOS FAKE-LANDSCAPE FULLSCREEN
-   Uses a fixed overlay + CSS rotate(90deg) since iOS Safari
-   does not support screen.orientation.lock() at all.
-═══════════════════════════════════════════════════════════════ */
-let iosFsActive = false;
-let iosFsIframe = null; // reference so we can remove it on exit
+/* ══════════════════════════════════════════════════
+   ENTER FULLSCREEN  (called by #mobFsBtn)
+══════════════════════════════════════════════════ */
+async function enterFullscreen() {
+  if (IS_IOS) {
+    enterIosFs(currentId);
+    return;
+  }
 
+  const box = document.getElementById('modalVideoBox');
+  try {
+    await requestFs(box);
+    await lockLandscape();
+    // Auto-apply fill on entry for immediate cinematic experience
+    applyFill(true);
+  } catch(e) {
+    console.warn('[FS] requestFs failed:', e.message);
+    // Last resort: open YouTube
+    window.open(`https://www.youtube.com/watch?v=${currentId}`, '_blank');
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   FILL / FIT TOGGLE  — Android / desktop FS path
+══════════════════════════════════════════════════ */
+function applyFill(fill) {
+  isFillMode = fill;
+  const wrap  = document.getElementById('modalIframeWrap');
+  const pill  = document.getElementById('fillPill');
+  const label = document.getElementById('fillLabel');
+
+  if (fill) {
+    wrap.classList.add('fill-mode');
+    pill.classList.add('is-fill');
+    label.textContent = 'Fit';   // button says what you can switch TO
+  } else {
+    wrap.classList.remove('fill-mode');
+    pill.classList.remove('is-fill');
+    label.textContent = 'Fill';
+  }
+}
+
+function toggleFill() {
+  applyFill(!isFillMode);
+}
+
+/* ══════════════════════════════════════════════════
+   iOS FAKE-LANDSCAPE
+══════════════════════════════════════════════════ */
 function enterIosFs(videoId) {
   if (iosFsActive) return;
   iosFsActive = true;
 
   const wrap = document.getElementById('iosFsVideoWrap');
-  wrap.innerHTML = ''; // clear any previous iframe
+  wrap.innerHTML = '';
 
-  // Build a fresh iframe identical to the player
   const iframe = document.createElement('iframe');
-  iframe.id = 'iosFsPlayer';
-  iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding=1&controls=1&autoplay=1&playsinline=0`;
+  iframe.src =
+    `https://www.youtube-nocookie.com/embed/${videoId}` +
+    `?rel=0&modestbranding=1&controls=1&autoplay=1&playsinline=0`;
   iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-  iframe.setAttribute('allowfullscreen', '');
-  iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+  iframe.setAttribute('allowfullscreen','');
+  iframe.setAttribute('referrerpolicy','strict-origin-when-cross-origin');
   iosFsIframe = iframe;
   wrap.appendChild(iframe);
 
   document.body.classList.add('ios-fs-active');
+
+  // Auto-apply fill on iOS too
+  applyIosFill(true);
 }
 
 function exitIosFs() {
   if (!iosFsActive) return;
   iosFsActive = false;
-
-  // Kill iframe src to stop audio/video
   if (iosFsIframe) { iosFsIframe.src = ''; iosFsIframe = null; }
   document.getElementById('iosFsVideoWrap').innerHTML = '';
   document.body.classList.remove('ios-fs-active');
+  // Reset iOS pill state
+  applyIosFill(false, /*silent*/true);
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   CUSTOM MOBILE FULLSCREEN BUTTON (#mobFsBtn) HANDLER
-   Strategy:
-   • iOS  → iOS fake-landscape overlay (CSS rotate trick)
-   • Others (Android Chrome, etc.)
-       → requestFullscreen() on the iframe container
-       → then screen.orientation.lock('landscape')
-═══════════════════════════════════════════════════════════════ */
-document.getElementById('mobFsBtn').addEventListener('click', async () => {
-  const iframeWrap = document.getElementById('modalIframeWrap');
-  const iframe = iframeWrap.querySelector('iframe');
-  if (!iframe) return; // video not started yet
+function applyIosFill(fill, silent) {
+  const wrap  = document.getElementById('iosFsVideoWrap');
+  const pill  = document.getElementById('iosFillPill');
+  const label = document.getElementById('iosFillLabel');
 
-  if (IS_IOS) {
-    // iOS path — use fake-landscape overlay
-    enterIosFs(currentId);
-    return;
+  if (fill) {
+    wrap.classList.add('fill-mode');
+    pill.classList.add('is-fill');
+    if (!silent) label.textContent = 'Fit';
+    else         label.textContent = 'Fit';   // start in Fill, button offers Fit
+  } else {
+    wrap.classList.remove('fill-mode');
+    pill.classList.remove('is-fill');
+    label.textContent = 'Fill';
   }
+}
 
-  // Android / other: native Fullscreen API on the iframe
-  try {
-    await requestFs(iframe);
-    // Lock after entering FS (lockLandscape is also called via
-    // the fullscreenchange listener, but calling it here too
-    // ensures it runs in the same user-gesture call stack)
-    await lockLandscape();
-  } catch (e) {
-    // Fallback: request FS on the modal video box wrapper
-    try {
-      await requestFs(document.getElementById('modalVideoBox'));
-      await lockLandscape();
-    } catch (e2) {
-      console.warn('[Chitrapat] fullscreen failed, opening YouTube:', e2.message);
-      window.open(`https://www.youtube.com/watch?v=${currentId}`, '_blank');
-    }
-  }
-});
+function toggleIosFill() {
+  const isCurrentlyFill = document.getElementById('iosFsVideoWrap').classList.contains('fill-mode');
+  applyIosFill(!isCurrentlyFill);
+}
 
-
-/* ═══════════════════════════════════════════════════════════════
-   DATA & CARD BUILDING
-═══════════════════════════════════════════════════════════════ */
-const ALL_IDS = [
-  'fmkS85mNZWA','vGAlyVISGdY','C5Fai9f41zg','wgaiwDwkFv8','mYcjf8JyTUY',
-  '37lE2fcE1tc','n8oJicFVuGA','4-6nDNMQIaU','FkxPhdo5hl0','ObRnSM7oSt0',
-  'vgFwmX_s4Jw','UnsCT66FEoY','AoEJkw7Cnug','My62uesZyHI','qW-1IrhLjNo',
-  'i1fGsaNxd7w','ggwmg63iYh4','8iW9qeJaE4I','fmcp3ayUsf0','UiTOvAQV9AA',
-  'rn52mrvgpOo','218i5d9fJ1k','mJ8cGXi3NoY','HZ9rmNDHMKg','H3dQIuU0MjQ',
-  'G-_seXjLdhk','0KDB4HDjkQE','KhVD9KqxM0U','OomPEftSHHk','wixizJ5HCj4',
-  'nFjotwyci94','GYJeCObuuB0','OrfYe3Xki1M','xwnloQaTo0k','KlUNVckBCFY',
-  'ZE8TCvFQVFI','PfoGXVKBimw','Y8cfPG8b5g8','MRA4-McqlO4','rXJzIAxR6Ys',
-  '2haqoZY50AA','6j2QySqaEtw','qNDiER_4p5M','L--7ZImfLKw','qRbmVfvZU8E',
-  'XTMyE-vsVe8','8ojtwu8IbZM','356a2JjUqW8','hFmJTE1WpyU','adlPT8BgtDY'
-];
-
-const ROWS = [
-  { title: '🔥 Trending Now',  ids: ALL_IDS.slice(0, 8) },
-  { title: '⭐ Top Rated',     ids: ALL_IDS.slice(8, 16) },
-  { title: '🎬 Action Movies', ids: ALL_IDS.slice(16, 24) },
-  { title: '😂 Comedy Movies', ids: ALL_IDS.slice(24, 32) },
-  { title: '🎭 Drama Series',  ids: ALL_IDS.slice(32, 40) },
-  { title: '🌟 New Arrivals',  ids: ALL_IDS.slice(40, 50) },
-];
-
+/* ══════════════════════════════════════════════════
+   MODAL OPEN / CLOSE
+══════════════════════════════════════════════════ */
 const titleCache = {};
-
-function thumbUrl(id) {
-  return `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
-}
-
 async function fetchTitle(id) {
   if (titleCache[id]) return titleCache[id];
   try {
     const r = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`);
-    if (!r.ok) throw new Error();
+    if (!r.ok) throw 0;
     const d = await r.json();
     titleCache[id] = d.title;
     return d.title;
   } catch { return null; }
 }
 
-function buildRows() {
-  const main = document.getElementById('main');
-  ROWS.forEach(row => {
-    const section = document.createElement('section');
-    section.className = 'row';
-    section.innerHTML = `
-      <div class="row-title">${row.title}</div>
-      <div class="slider-wrap">
-        <button class="arrow left" onclick="scrollRow(this,-1)">‹</button>
-        <div class="slider">
-          ${row.ids.map(id => `
-            <div class="card" id="card-${id}" onclick="openModal('${id}')">
-              <img src="${thumbUrl(id)}" alt="thumb" loading="lazy" onerror="this.style.opacity='.25'">
-              <div class="card-overlay">
-                <div class="card-actions">
-                  <div class="c-btn play">▶</div>
-                  <div class="c-btn">+</div>
-                  <div class="c-btn">👍</div>
-                </div>
-                <div class="card-title" id="ct-${id}">Loading…</div>
-                <div class="card-meta">HD Available</div>
-              </div>
-            </div>`).join('')}
-        </div>
-        <button class="arrow right" onclick="scrollRow(this,1)">›</button>
-      </div>`;
-    main.appendChild(section);
-
-    row.ids.forEach(id => {
-      fetchTitle(id).then(t => {
-        const el = document.getElementById('ct-' + id);
-        if (el && t) el.textContent = t;
-      });
-    });
-  });
-}
-
-function scrollRow(btn, dir) {
-  const slider = btn.closest('.slider-wrap').querySelector('.slider');
-  slider.scrollBy({ left: dir * 800, behavior: 'smooth' });
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   MODAL
-═══════════════════════════════════════════════════════════════ */
-let currentId = '';
-
 async function openModal(id) {
   currentId = id;
+  isFillMode = false;   // reset state
 
-  // Reset state
-  document.getElementById('modalPosterWrap').style.display = 'flex';
-  document.getElementById('modalIframeWrap').style.display = 'none';
-  document.getElementById('modalIframeWrap').innerHTML = '';
+  // Reset UI
+  const posterWrap = document.getElementById('modalPosterWrap');
+  const iframeWrap = document.getElementById('modalIframeWrap');
+  posterWrap.style.display = 'flex';
+  iframeWrap.style.display = 'none';
+  iframeWrap.innerHTML = '';
+  iframeWrap.classList.remove('fill-mode');
   document.getElementById('modalBlocked').style.display = 'none';
+  document.getElementById('fillPill').classList.remove('is-fill');
+  document.getElementById('fillLabel').textContent = 'Fill';
 
   document.getElementById('modalPosterImg').src =
     `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
@@ -917,7 +965,6 @@ async function openModal(id) {
   const ytUrl = `https://www.youtube.com/watch?v=${id}`;
   document.getElementById('modalExtLink').href = ytUrl;
   document.getElementById('modalYTLink').href  = ytUrl;
-
   document.getElementById('modalTitle').textContent = 'Loading…';
   document.getElementById('modalBg').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -932,7 +979,6 @@ async function openModal(id) {
 function startPlay() {
   const id   = currentId;
   const wrap = document.getElementById('modalIframeWrap');
-
   document.getElementById('modalPosterWrap').style.display = 'none';
   wrap.style.display = 'block';
   wrap.innerHTML = '';
@@ -943,36 +989,101 @@ function startPlay() {
   iframe.src =
     `https://www.youtube-nocookie.com/embed/${id}` +
     `?rel=0&modestbranding=1&controls=1&autoplay=1&playsinline=1`;
-  iframe.allow =
-    'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-  iframe.setAttribute('allowfullscreen', '');
-  iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+  iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+  iframe.setAttribute('allowfullscreen','');
+  iframe.setAttribute('referrerpolicy','strict-origin-when-cross-origin');
   wrap.appendChild(iframe);
 }
 
 function closeModal() {
-  // Stop any playing iOS overlay too
   exitIosFs();
-
-  // Exit native fullscreen if open
-  if (fullscreenElement()) { exitFs().catch(() => {}); }
+  if (fsElement()) exitFs().catch(()=>{});
   unlockOrientation();
 
-  document.getElementById('modalIframeWrap').innerHTML     = '';
+  document.getElementById('modalIframeWrap').innerHTML = '';
   document.getElementById('modalIframeWrap').style.display = 'none';
+  document.getElementById('modalIframeWrap').classList.remove('fill-mode');
   document.getElementById('modalPosterWrap').style.display = 'flex';
-  document.getElementById('modalBlocked').style.display   = 'none';
+  document.getElementById('modalBlocked').style.display = 'none';
   document.getElementById('modalBg').classList.remove('open');
   document.body.style.overflow = '';
+  isFillMode = false;
 }
 
 function closeModalBg(e) {
   if (e.target === document.getElementById('modalBg')) closeModal();
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   INIT
-═══════════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════
+   CARD DATA & ROW BUILDER
+══════════════════════════════════════════════════ */
+const ALL_IDS = [
+  'fmkS85mNZWA','vGAlyVISGdY','C5Fai9f41zg','wgaiwDwkFv8','mYcjf8JyTUY',
+  '37lE2fcE1tc','n8oJicFVuGA','4-6nDNMQIaU','FkxPhdo5hl0','ObRnSM7oSt0',
+  'vgFwmX_s4Jw','UnsCT66FEoY','AoEJkw7Cnug','My62uesZyHI','qW-1IrhLjNo',
+  'i1fGsaNxd7w','ggwmg63iYh4','8iW9qeJaE4I','fmcp3ayUsf0','UiTOvAQV9AA',
+  'rn52mrvgpOo','218i5d9fJ1k','mJ8cGXi3NoY','HZ9rmNDHMKg','H3dQIuU0MjQ',
+  'G-_seXjLdhk','0KDB4HDjkQE','KhVD9KqxM0U','OomPEftSHHk','wixizJ5HCj4',
+  'nFjotwyci94','GYJeCObuuB0','OrfYe3Xki1M','xwnloQaTo0k','KlUNVckBCFY',
+  'ZE8TCvFQVFI','PfoGXVKBimw','Y8cfPG8b5g8','MRA4-McqlO4','rXJzIAxR6Ys',
+  '2haqoZY50AA','6j2QySqaEtw','qNDiER_4p5M','L--7ZImfLKw','qRbmVfvZU8E',
+  'XTMyE-vsVe8','8ojtwu8IbZM','356a2JjUqW8','hFmJTE1WpyU','adlPT8BgtDY'
+];
+
+const ROWS = [
+  { title: '🔥 Trending Now',  ids: ALL_IDS.slice(0,8)  },
+  { title: '⭐ Top Rated',     ids: ALL_IDS.slice(8,16)  },
+  { title: '🎬 Action Movies', ids: ALL_IDS.slice(16,24) },
+  { title: '😂 Comedy Movies', ids: ALL_IDS.slice(24,32) },
+  { title: '🎭 Drama Series',  ids: ALL_IDS.slice(32,40) },
+  { title: '🌟 New Arrivals',  ids: ALL_IDS.slice(40,50) },
+];
+
+function thumbUrl(id){ return `https://img.youtube.com/vi/${id}/mqdefault.jpg`; }
+
+function scrollRow(btn, dir) {
+  btn.closest('.slider-wrap').querySelector('.slider')
+     .scrollBy({ left: dir * 800, behavior: 'smooth' });
+}
+
+function buildRows() {
+  const main = document.getElementById('main');
+  ROWS.forEach(row => {
+    const sec = document.createElement('section');
+    sec.className = 'row';
+    sec.innerHTML = `
+      <div class="row-title">${row.title}</div>
+      <div class="slider-wrap">
+        <button class="arrow left"  onclick="scrollRow(this,-1)">‹</button>
+        <div class="slider">
+          ${row.ids.map(id => `
+            <div class="card" onclick="openModal('${id}')">
+              <img src="${thumbUrl(id)}" loading="lazy" alt=""
+                   onerror="this.style.opacity='.2'">
+              <div class="card-overlay">
+                <div class="card-actions">
+                  <div class="c-btn play">▶</div>
+                  <div class="c-btn">+</div>
+                  <div class="c-btn">👍</div>
+                </div>
+                <div class="card-title" id="ct-${id}">Loading…</div>
+                <div class="card-meta">HD Available</div>
+              </div>
+            </div>`).join('')}
+        </div>
+        <button class="arrow right" onclick="scrollRow(this,1)">›</button>
+      </div>`;
+    main.appendChild(sec);
+
+    row.ids.forEach(id => {
+      fetchTitle(id).then(t => {
+        const el = document.getElementById('ct-' + id);
+        if (el && t) el.textContent = t;
+      });
+    });
+  });
+}
+
 buildRows();
 </script>
 </body>
